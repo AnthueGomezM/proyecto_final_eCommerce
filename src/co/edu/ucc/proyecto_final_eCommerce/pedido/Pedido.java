@@ -1,40 +1,40 @@
 package co.edu.ucc.proyecto_final_eCommerce.pedido;
 
-import java.time.LocalDateTime;
+import co.edu.ucc.proyecto_final_eCommerce.pedido.Estados.PendienteState;
+import co.edu.ucc.proyecto_final_eCommerce.pedido.Mediator.PedidoMediator;
 
 public class Pedido {
     private String id;
-    private String estado;
-    private String direccionEnvio;
-    private LocalDateTime fechaCreacion;
+    private PedidoState estado;
+    private PedidoMediator mediator;
 
-    public Pedido(String id, String direccionEnvio) {
+    public Pedido(String id, PedidoMediator mediator) {
         this.id = id;
-        this.direccionEnvio = direccionEnvio;
-        this.estado = "Pendiente";
-        this.fechaCreacion = LocalDateTime.now();
+        this.mediator = mediator;
+        this.estado = new PendienteState();
     }
 
-    public void confirmarEnvio() {
-        this.estado = "Enviado";
+    public void avanzarEstado() {
+        estado.avanzar(this);
     }
 
     public void cancelar() {
-        this.estado = "Cancelado";
+        estado.cancelar(this);
     }
 
-    public PedidoMemento guardarEstado() {
-        return new PedidoMemento(id, estado, direccionEnvio, fechaCreacion);
+    public String verEstado() {
+        return estado.obtenerEstado();
     }
 
-    public void restaurarEstado(PedidoMemento memento) {
-        this.id = memento.getId();
-        this.estado = memento.getEstado();
-        this.direccionEnvio = memento.getDireccionEnvio();
-        this.fechaCreacion = memento.getFechaCreacion();
+    public void setEstado(PedidoState estado) {
+        this.estado = estado;
     }
 
-    public void mostrarInfo() {
-        System.out.println("📦 Pedido #" + id + " | Estado: " + estado + " | Dirección: " + direccionEnvio);
+    public PedidoMediator getMediator() {
+        return mediator;
+    }
+
+    public String getId() {
+        return id;
     }
 }
