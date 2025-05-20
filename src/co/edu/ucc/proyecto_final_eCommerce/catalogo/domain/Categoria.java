@@ -29,4 +29,11 @@ public class Categoria {
     public int hashCode() {
         return Objects.hashCode(nombre);
     }
+
+    @Override
+    public String toString() {
+        return "Categoria{" +
+                "nombre='" + nombre + '\'' +
+                '}';
+    }
 }
