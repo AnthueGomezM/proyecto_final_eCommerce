@@ -21,14 +21,11 @@ import co.edu.ucc.proyecto_final_eCommerce.pago.contexto.ProcesadorPago;
 import co.edu.ucc.proyecto_final_eCommerce.pago.model.DetallePago;
 import co.edu.ucc.proyecto_final_eCommerce.pago.strategy.EstrategiaPorMonto;
 import co.edu.ucc.proyecto_final_eCommerce.pago.strategy.EstrategiaPorPais;
-import co.edu.ucc.proyecto_final_eCommerce.pedido.Estados.EnviadoState;
 import co.edu.ucc.proyecto_final_eCommerce.pedido.Logistica;
 import co.edu.ucc.proyecto_final_eCommerce.pedido.Mediator.PedidoMediator;
 import co.edu.ucc.proyecto_final_eCommerce.pedido.Mediator.PedidoMediatorImple;
 import co.edu.ucc.proyecto_final_eCommerce.pedido.Notificacion;
 import co.edu.ucc.proyecto_final_eCommerce.pedido.Pedido;
-import co.edu.ucc.proyecto_final_eCommerce.pedidoMemento.PedidoHistorial;
-import co.edu.ucc.proyecto_final_eCommerce.pedidoMemento.PedidoMemento;
 import co.edu.ucc.proyecto_final_eCommerce.recomendacion.contexto.RecomendadorContexto;
 import co.edu.ucc.proyecto_final_eCommerce.recomendacion.observer.EventoUsuario;
 import co.edu.ucc.proyecto_final_eCommerce.recomendacion.observer.MotorRecomendacion;
@@ -161,33 +158,33 @@ public class Main {
         PedidoMediator mediator = new PedidoMediatorImple(logistica, notificacion);
 
         // Crear un pedido con estado inicial Pendiente
-        Pedido pedido = new Pedido("PED-001", mediator);
+        Pedido pedido1 = new Pedido("PED-001",  "Cra 13 1-34",mediator);
 
-        System.out.println("📝 Estado inicial del pedido: " + pedido.verEstado());
+        System.out.println("📝 Estado inicial del pedido: " + pedido1.verEstado());
 
         // Avanzar al estado Confirmado
         System.out.println("\n➡️ Avanzando estado del pedido...");
-        pedido.avanzarEstado();
-        System.out.println("📦 Estado actual: " + pedido.verEstado());
+        pedido1.avanzarEstado();
+        System.out.println("📦 Estado actual: " + pedido1.verEstado());
 
         // Avanzar al estado Enviado
         System.out.println("\n➡️ Avanzando estado del pedido...");
-        pedido.avanzarEstado();
-        System.out.println("📦 Estado actual: " + pedido.verEstado());
+        pedido1.avanzarEstado();
+        System.out.println("📦 Estado actual: " + pedido1.verEstado());
 
         // Intentar cancelar (no debe ser posible)
         System.out.println("\n❌ Intentando cancelar el pedido...");
-        pedido.cancelar();
-        System.out.println("📦 Estado actual: " + pedido.verEstado());
+        pedido1.cancelar();
+        System.out.println("📦 Estado actual: " + pedido1.verEstado());
 
         // Avanzar al estado Entregado
         System.out.println("\n➡️ Avanzando estado del pedido...");
-        pedido.avanzarEstado();
-        System.out.println("📦 Estado actual: " + pedido.verEstado());
+        pedido1.avanzarEstado();
+        System.out.println("📦 Estado actual: " + pedido1.verEstado());
 
         // Intentar avanzar más (no debe hacer nada)
         System.out.println("\n➡️ Avanzando estado del pedido (más allá de entregado)...");
-        pedido.avanzarEstado();
+        pedido1.avanzarEstado();
 
         System.out.println("\nHistoria de usario 7");
         // Crear productos ficticios
@@ -225,38 +222,29 @@ public class Main {
         fachadaReportes.generarReportesUsuarios(List.of(u1, u2));
 
         System.out.println("\nHistoria de usario 8");
-        // Crear historial y pedido
-        PedidoHistorial historial = new PedidoHistorial();
-        Pedido pedido1 = new Pedido("PED-202", "Cra 123 #45-67");
+        PedidoMediator mediatore = (pedido, estado) ->
+                System.out.println("🔔 Notificación: Pedido " + pedido.getId() + " cambió a estado " + estado);
 
-        // Mostrar estado inicial
-        pedido1.mostrarInfo();
+        Pedido pedido8 = new Pedido("A101", "Cra 13 1-34",mediatore);
 
-        // Guardar estado inicial
-        historial.guardar(pedido1.guardarEstado());
+        pedido8.mostrarInfo();
 
-        // Confirmar envío
-        System.out.println("\n📦 Confirmando envío del pedido...");
-        pedido1.confirmarEnvio();
-        pedido1.mostrarInfo();
+        // Avanzar estado (ej. Pendiente → En Proceso)
+        pedido8.avanzarEstado();
+        pedido8.mostrarInfo();
 
-        // Guardar estado después de envío
-        historial.guardar(pedido1.guardarEstado());
+        // Cancelar
+        pedido8.cancelar();
+        pedido8.mostrarInfo();
 
-        // Cancelar pedido
-        System.out.println("\n❌ Cancelando el pedido...");
-        pedido1.cancelar();
-        pedido1.mostrarInfo();
+        // Revertir cancelación
+        System.out.println("↩ Revirtiendo al estado anterior...");
+        pedido8.restaurarEstado();
+        pedido8.mostrarInfo();
 
-        // Deshacer cancelación (simular devolución al estado anterior)
-        System.out.println("\n↩️ Revirtiendo estado (simulando devolución)...");
-        pedido1.restaurarEstado(historial.deshacer());
-        pedido1.mostrarInfo();
+        // Otra reversión
+        pedido8.restaurarEstado();
+        pedido8.mostrarInfo();
 
-        // Otra reversión (al estado inicial)
-        System.out.println("\n↩️ Revirtiendo aún más (estado inicial)...");
-        pedido1.restaurarEstado(historial.deshacer());
-        pedido1.mostrarInfo();
-    }
     }
 }
