@@ -2,11 +2,12 @@ package co.edu.ucc.proyecto_final_eCommerce.catalogo.domain;
 
 import co.edu.ucc.proyecto_final_eCommerce.cupones.model.UsuarioTipo;
 import co.edu.ucc.proyecto_final_eCommerce.reportes.visitor.ReporteVisitor;
+import co.edu.ucc.proyecto_final_eCommerce.reportes.visitor.Visitable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Usuario {
+public class Usuario implements Visitable {
     private String id;
     private UsuarioTipo tipo;
     private List<Producto> historialBusqueda = new ArrayList<>();
@@ -43,10 +44,14 @@ public class Usuario {
     public UsuarioTipo getTipo() {
         return tipo;
     }
+    public void setTipo(UsuarioTipo tipo) {
+        this.tipo = tipo;
+    }
 
     public void aceptar(ReporteVisitor visitor) {
         visitor.visitar(this);
     }
+
     public List<Producto> getProductosRecientes() {
         return productosRecientes;
     }

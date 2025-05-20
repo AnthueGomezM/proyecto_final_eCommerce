@@ -12,14 +12,16 @@ public class Personalizacion {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String fecha = ahora.format(formatter);
 
-        System.out.println("****************************************************");
-        System.out.println("* \uD83D\uDC68 Nombres: " + nombres + " \uD83D\uDC68");
-        System.out.println("* Campus: " + campus);
-        System.out.println("* Repositorio: " + repositorio + " \uD83D\uDCDA");
-        System.out.println("* Fecha: " + fecha + " \uD83D\uDFEB");
-        System.out.println("****************************************************");
-        System.out.println("* Este programa implementa patrones solicitados del proyecto E-commerce");
-        System.out.println("****************************************************");
+        System.out.println(String.format("""
+        ****************************************************
+        * \uD83D\uDC68 Stakeholders: %s \uD83D\uDC68
+        * Campus: %s
+        * Repositorio: %s \uD83D\uDCDA
+        * Fecha: %s \uD83D\uDFEB
+        ****************************************************
+        * Este programa implementa patrones solicitados del proyecto E-commerce
+        ****************************************************
+        """, nombres, campus, repositorio, fecha));
         getIdentidad();
     }
 
