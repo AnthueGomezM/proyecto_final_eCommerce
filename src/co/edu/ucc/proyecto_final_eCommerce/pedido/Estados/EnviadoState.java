@@ -6,6 +6,7 @@ import co.edu.ucc.proyecto_final_eCommerce.pedido.PedidoState;
 public class EnviadoState implements PedidoState {
     @Override
     public void avanzar(Pedido pedido) {
+        pedido.setEstado(new EnviadoState());
         pedido.setEstado(new EntregadoState());
         pedido.getMediator().notificarCambio(pedido, "entregado");
     }

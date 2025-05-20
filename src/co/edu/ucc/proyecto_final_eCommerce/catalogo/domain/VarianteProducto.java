@@ -24,4 +24,10 @@ public class VarianteProducto {
         return color;
     }
 
+    public String toString() {
+        return "VarianteProducto{" +
+                "color='" + color + '\'' +
+                ", talla='" + talla + '\'' +
+                '}';
+    }
 }
