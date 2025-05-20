@@ -18,6 +18,14 @@ public class Producto {
         this.variantes = variantes;
     }
 
+    public Producto(String zapatillas) {
+        this.nombre = zapatillas;
+        this.descripcion = zapatillas;
+        this.precio = Double.parseDouble(zapatillas);
+        this.categoria = null;
+        this.variantes = new ArrayList<>();
+    }
+
     @Override
     public String toString() {
         return "Producto{" +
