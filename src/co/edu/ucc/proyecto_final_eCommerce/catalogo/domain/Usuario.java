@@ -1,6 +1,7 @@
 package co.edu.ucc.proyecto_final_eCommerce.catalogo.domain;
 
 import co.edu.ucc.proyecto_final_eCommerce.cupones.model.UsuarioTipo;
+import co.edu.ucc.proyecto_final_eCommerce.reportes.visitor.ReporteVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,5 +42,12 @@ public class Usuario {
     }
     public UsuarioTipo getTipo() {
         return tipo;
+    }
+
+    public void aceptar(ReporteVisitor visitor) {
+        visitor.visitar(this);
+    }
+    public List<Producto> getProductosRecientes() {
+        return productosRecientes;
     }
 }
